@@ -1,0 +1,9 @@
+-- authorized_users.lua
+return {
+    "dalgacor3",
+    "buytrfh99",  -- Add more usernames here
+    "Bunniesham",
+    "new",
+    "new",
+    "new"
+}
