@@ -7,7 +7,7 @@ local isFullAuthorized = false
 
 local function checkAuthorization()
     local success, allUsers = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key"))()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/Keydalvstoreult"))()
     end)
     
     if not success or type(allUsers) ~= "table" then
