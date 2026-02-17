@@ -3,31 +3,141 @@ local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
 -- ================= AUTHORIZATION LOGIC =================
+local isFullAuthorized = false  -- will be set based on remote list
+
 local function checkAuthorization()
-    local authorizedUsers = loadstring(game:HttpGet("https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key"))()
-    local isAuthorized = false
+    -- Load authorized users from remote website
+    local success, allUsers = pcall(function()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key"))()
+    end)
+    
+    if not success or type(allUsers) ~= "table" then
+        allUsers = {}  -- if fails, treat as empty (no full access)
+    end
+    
+    -- Take only first 20 (limit)
+    local maxUsers = 20
+    local authorizedUsers = {}
+    for i = 1, math.min(maxUsers, #allUsers) do
+        authorizedUsers[i] = allUsers[i]
+    end
+    
+    -- Check if current user is in the limited list
     for _, username in ipairs(authorizedUsers) do
         if Player.Name == username then
-            isAuthorized = true
+            isFullAuthorized = true
             break
         end
     end
-    if not isAuthorized then
-        return false, "You don't have an access, contact fb: dalvstore"
-    end
-    return true, "Authorized"
+    
+    -- No early return – script continues with isFullAuthorized flag
 end
 
-local isAuthorized, reason = checkAuthorization()
-if not isAuthorized then
-    -- Unauthorized UI (keep your existing code here)
-    -- ... (omitted for brevity, but you must include it)
-    return
+checkAuthorization()
+
+-- ================= UNAUTHORIZED POPUP FUNCTION =================
+local function showUnauthorizedPopup()
+    -- Create a simple unauthorized message
+    local UnauthorizedScreenGui = Instance.new("ScreenGui")
+    UnauthorizedScreenGui.Name = "UnauthorizedMessage"
+    UnauthorizedScreenGui.Parent = PlayerGui
+    
+    local UnauthorizedFrame = Instance.new("Frame")
+    UnauthorizedFrame.Size = UDim2.new(0, 350, 0, 200)
+    UnauthorizedFrame.Position = UDim2.new(0.5, -175, 0.5, -100)
+    UnauthorizedFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    UnauthorizedFrame.BorderSizePixel = 0
+    UnauthorizedFrame.Parent = UnauthorizedScreenGui
+    
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 12)
+    UICorner.Parent = UnauthorizedFrame
+    
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, 0, 0, 50)
+    Title.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+    Title.Text = "UNAUTHORIZED"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 22
+    Title.Font = Enum.Font.GothamBold
+    Title.Parent = UnauthorizedFrame
+    
+    local Message = Instance.new("TextLabel")
+    Message.Size = UDim2.new(0.9, 0, 0, 80)
+    Message.Position = UDim2.new(0.05, 0, 0.3, 0)
+    Message.BackgroundTransparency = 1
+    Message.Text = "You don't have full access, contact fb: dalvstore"
+    Message.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Message.TextSize = 14
+    Message.TextWrapped = true
+    Message.Parent = UnauthorizedFrame
+    
+    -- Button container
+    local ButtonContainer = Instance.new("Frame")
+    ButtonContainer.Size = UDim2.new(1, 0, 0, 30)
+    ButtonContainer.Position = UDim2.new(0, 0, 0.8, 0)
+    ButtonContainer.BackgroundTransparency = 1
+    ButtonContainer.Parent = UnauthorizedFrame
+    
+    -- BUY button
+    local BuyButton = Instance.new("TextButton")
+    BuyButton.Size = UDim2.new(0.4, 0, 1, 0)
+    BuyButton.Position = UDim2.new(0.05, 0, 0, 0)
+    BuyButton.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+    BuyButton.BorderSizePixel = 0
+    BuyButton.Text = "BUY"
+    BuyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    BuyButton.TextSize = 14
+    BuyButton.Font = Enum.Font.GothamBold
+    BuyButton.Parent = ButtonContainer
+    
+    local BuyButtonCorner = Instance.new("UICorner")
+    BuyButtonCorner.CornerRadius = UDim.new(0, 6)
+    BuyButtonCorner.Parent = BuyButton
+    
+    -- CLOSE button
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Size = UDim2.new(0.4, 0, 1, 0)
+    CloseButton.Position = UDim2.new(0.55, 0, 0, 0)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+    CloseButton.BorderSizePixel = 0
+    CloseButton.Text = "CLOSE"
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.TextSize = 14
+    CloseButton.Font = Enum.Font.GothamBold
+    CloseButton.Parent = ButtonContainer
+    
+    local CloseButtonCorner = Instance.new("UICorner")
+    CloseButtonCorner.CornerRadius = UDim.new(0, 6)
+    CloseButtonCorner.Parent = CloseButton
+    
+    -- BUY button click
+    BuyButton.MouseButton1Click:Connect(function()
+        setclipboard("https://sociabuzz.com/dalvstore/tribe")
+        local NotificationService = game:GetService("StarterGui")
+        NotificationService:SetCore("SendNotification", {
+            Title = "Link copied",
+            Text = "Paste on your browser to buy the script",
+            Duration = 5,
+            Icon = "rbxassetid://4483345998"
+        })
+        print("Link copied to clipboard: https://sociabuzz.com/dalvstore/tribe")
+    end)
+    
+    -- CLOSE button click
+    CloseButton.MouseButton1Click:Connect(function()
+        UnauthorizedScreenGui:Destroy()
+    end)
+    
+    -- Also show a notification
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Access Restricted",
+        Text = "You dont have access to injector",
+        Duration = 5
+    })
 end
 
-print("Authorized! Script can continue...")
-
--- ================= MAIN SCRIPT =================
+-- ================= MAIN SCRIPT (continues regardless of authorization) =================
 local Leaderstats = Player:WaitForChild("leaderstats", 5)
 local MoneyStat = Leaderstats and Leaderstats:WaitForChild("Money", 5)
 
@@ -118,10 +228,22 @@ local function createTabButton(parent, yPos, text, hasSubtext, subtext)
 end
 
 local Tab0Button, Tab0Border = createTabButton(TabContainer, 0, "WARNING", false)
-local Tab1Button, Tab1Border = createTabButton(TabContainer, 45, "INJECTOR", false)
+local Tab1Button, Tab1Border = createTabButton(TabContainer, 45, "INJECTOR", true, "premium")
 local Tab2Button, Tab2Border = createTabButton(TabContainer, 90, "CODE", false)
 local Tab3Button, Tab3Border = createTabButton(TabContainer, 135, "WINGS", false)
 local Tab4Button, Tab4Border = createTabButton(TabContainer, 180, "AUTO", false)
+
+-- If not fully authorized, hide restricted tabs (Warning, Injector, Wings)
+if not isFullAuthorized then
+    Tab0Button.Visible = false
+    Tab0Border.Visible = false
+    Tab1Button.Visible = false
+    Tab1Border.Visible = false
+    Tab3Button.Visible = false
+    Tab3Border.Visible = false
+    -- Also hide their content frames (they are already hidden by default, but ensure)
+    -- We'll hide them later after they're defined.
+end
 
 -- ================= MAIN PANEL =================
 local OuterFrame = Instance.new("Frame")
@@ -141,7 +263,7 @@ local VersionText = Instance.new("TextLabel")
 VersionText.Size = UDim2.new(0, 60, 0, 15)
 VersionText.Position = UDim2.new(1, -65, 1, -18)
 VersionText.BackgroundTransparency = 1
-VersionText.Text = "Premium V4.Ult"
+VersionText.Text = "Premium V4.02EN"
 VersionText.TextColor3 = Color3.fromRGB(180, 180, 180)
 VersionText.TextSize = 10
 VersionText.Font = Enum.Font.Gotham
@@ -290,6 +412,13 @@ Tab4Content.Size = UDim2.new(1, 0, 1, 0)
 Tab4Content.BackgroundTransparency = 1
 Tab4Content.Visible = false
 Tab4Content.Parent = ContentArea
+
+-- Hide restricted content if not fully authorized
+if not isFullAuthorized then
+    Tab0Content.Visible = false
+    Tab1Content.Visible = false
+    Tab3Content.Visible = false
+end
 
 -- ================= TAB 0 CONTENT (Warning) =================
 -- (Warning content – unchanged)
@@ -699,7 +828,7 @@ SpeedRow.Parent = AutoFrame
 local SpeedLabel = Instance.new("TextLabel")
 SpeedLabel.Size = UDim2.new(0, 150, 1, 0)
 SpeedLabel.BackgroundTransparency = 1
-SpeedLabel.Text = "2x speed Gamepass"
+SpeedLabel.Text = "100x speed GP"
 SpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedLabel.TextSize = 13
 SpeedLabel.Font = Enum.Font.GothamBold
@@ -776,10 +905,10 @@ CloseButton.TextSize = 12
 CloseButton.ZIndex = 5
 CloseButton.Parent = MainFrame
 
--- Mini Icon (image) - UPDATED ASSET ID
+-- Mini Icon (image) - with new asset ID
 MiniIcon = Instance.new("ImageButton")
 MiniIcon.Size = UDim2.new(0, 67, 0, 67)
-MiniIcon.Position = UDim2.new(0, 420, 0, 50)
+MiniIcon.Position = UDim2.new(0, 30, 0, 460)
 MiniIcon.BackgroundTransparency = 1
 MiniIcon.Image = "rbxassetid://90238157870123"
 MiniIcon.ScaleType = Enum.ScaleType.Fit
@@ -875,17 +1004,22 @@ end
 
 -- ================= TAB SWITCHING =================
 local function switchToTab(tabNumber)
-    Tab0Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
-    Tab1Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
-    Tab2Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
-    Tab3Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
-    Tab4Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
-    for _, lbl in ipairs(Tab1Button:GetChildren()) do
-        if lbl:IsA("TextLabel") then
-            if lbl.Text == "INJECTOR" then
-                lbl.TextColor3 = Color3.fromRGB(200,200,200)
-            elseif lbl.Text == "premium" then
-                lbl.TextColor3 = Color3.fromRGB(150,150,150)
+    -- Reset all tabs (only visible ones matter)
+    if Tab0Button.Visible then Tab0Button.BackgroundColor3 = Color3.fromRGB(80,80,80) end
+    if Tab1Button.Visible then Tab1Button.BackgroundColor3 = Color3.fromRGB(80,80,80) end
+    if Tab2Button.Visible then Tab2Button.BackgroundColor3 = Color3.fromRGB(80,80,80) end
+    if Tab3Button.Visible then Tab3Button.BackgroundColor3 = Color3.fromRGB(80,80,80) end
+    if Tab4Button.Visible then Tab4Button.BackgroundColor3 = Color3.fromRGB(80,80,80) end
+    
+    -- Reset injector subtext if tab is visible
+    if Tab1Button.Visible then
+        for _, lbl in ipairs(Tab1Button:GetChildren()) do
+            if lbl:IsA("TextLabel") then
+                if lbl.Text == "INJECTOR" then
+                    lbl.TextColor3 = Color3.fromRGB(200,200,200)
+                elseif lbl.Text == "premium" then
+                    lbl.TextColor3 = Color3.fromRGB(150,150,150)
+                end
             end
         end
     end
@@ -896,10 +1030,11 @@ local function switchToTab(tabNumber)
     Tab3Content.Visible = false
     Tab4Content.Visible = false
 
-    if tabNumber == 0 then
+    -- Activate selected tab (only if that tab is allowed to be shown)
+    if tabNumber == 0 and Tab0Button.Visible then
         Tab0Content.Visible = true
         Tab0Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
-    elseif tabNumber == 1 then
+    elseif tabNumber == 1 and Tab1Button.Visible then
         Tab1Content.Visible = true
         Tab1Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
         for _, lbl in ipairs(Tab1Button:GetChildren()) do
@@ -911,23 +1046,70 @@ local function switchToTab(tabNumber)
                 end
             end
         end
-    elseif tabNumber == 2 then
+    elseif tabNumber == 2 and Tab2Button.Visible then
         Tab2Content.Visible = true
         Tab2Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
-    elseif tabNumber == 3 then
+    elseif tabNumber == 3 and Tab3Button.Visible then
         Tab3Content.Visible = true
         Tab3Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
-    elseif tabNumber == 4 then
+    elseif tabNumber == 4 and Tab4Button.Visible then
         Tab4Content.Visible = true
         Tab4Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
     end
 end
 
-Tab0Button.MouseButton1Click:Connect(function() switchToTab(0) end)
-Tab1Button.MouseButton1Click:Connect(function() switchToTab(1) end)
-Tab2Button.MouseButton1Click:Connect(function() switchToTab(2) end)
-Tab3Button.MouseButton1Click:Connect(function() switchToTab(3) end)
-Tab4Button.MouseButton1Click:Connect(function() switchToTab(4) end)
+-- Tab button click events (with extra safety for unauthorized users)
+Tab0Button.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then showUnauthorizedPopup(); return end
+    switchToTab(0)
+end)
+Tab1Button.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then showUnauthorizedPopup(); return end
+    switchToTab(1)
+end)
+Tab2Button.MouseButton1Click:Connect(function()
+    switchToTab(2)  -- always allowed
+end)
+Tab3Button.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then showUnauthorizedPopup(); return end
+    switchToTab(3)
+end)
+Tab4Button.MouseButton1Click:Connect(function()
+    switchToTab(4)  -- always allowed
+end)
+
+-- ================= MINIMIZE/CLOSE HANDLERS =================
+MinimizeButton.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then
+        showUnauthorizedPopup()
+        ScreenGui:Destroy()  -- Destroy the entire GUI
+        return
+    end
+    -- For authorized users, normal minimize behavior
+    MainContainer.Visible = false
+    MiniIcon.Visible = true
+end)
+
+MiniIcon.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then
+        showUnauthorizedPopup()
+        ScreenGui:Destroy()
+        return
+    end
+    MainContainer.Visible = true
+    MiniIcon.Visible = false
+end)
+
+CloseButton.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then
+        showUnauthorizedPopup()
+    end
+    -- Stop running loops
+    if autoBoxRunning then autoBoxRunning = false end
+    if wingsRunning then wingsRunning = false end
+    if hatchRunning then hatchRunning = false end
+    ScreenGui:Destroy()
+end)
 
 -- ================= UPDATERS =================
 function updateSymbol()
@@ -1047,7 +1229,9 @@ local function unlockWings()
     end)
 end
 
+-- Wings button click (only allowed if full authorized)
 WingsButton.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then showUnauthorizedPopup(); return end
     if not wingsRunning then unlockWings() end
 end)
 
@@ -1075,7 +1259,7 @@ local function toggleHatch()
     end
 end
 
-HatchButton.MouseButton1Click:Connect(toggleHatch)
+HatchButton.MouseButton1Click:Connect(toggleHatch)  -- always allowed
 
 -- ================= AUTO CLIMB TOGGLE LOGIC =================
 local function updateClimbButton()
@@ -1208,7 +1392,9 @@ else
     TotalValueBox.Text = "Money stat not found"
 end
 
+-- Generate button (only allowed if full authorized)
 GenerateButton.MouseButton1Click:Connect(function()
+    if not isFullAuthorized then showUnauthorizedPopup(); return end
     local number = tonumber(AmountBox.Text) or 400
     local suffix = SymbolBox.Text
     local n = calculateN(number, suffix)
@@ -1229,24 +1415,14 @@ game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp")
     end
 end)
 
+-- Code and Auto features (always allowed)
 ClaimCodesButton.MouseButton1Click:Connect(claimAllCodes)
 AutoBoxButton.MouseButton1Click:Connect(toggleAutoBox)
 
-MinimizeButton.MouseButton1Click:Connect(function()
-    MainContainer.Visible = false
-    MiniIcon.Visible = true
-end)
-MiniIcon.MouseButton1Click:Connect(function()
-    MainContainer.Visible = true
-    MiniIcon.Visible = false
-end)
-CloseButton.MouseButton1Click:Connect(function()
-    if autoBoxRunning then autoBoxRunning = false end
-    if wingsRunning then wingsRunning = false end
-    if hatchRunning then hatchRunning = false end
-    ScreenGui:Destroy()
-end)
-
 -- Initialize
 updateSymbol()
-switchToTab(1)  -- Start with Injector
+if isFullAuthorized then
+    switchToTab(1)  -- Injector for full users
+else
+    switchToTab(2)  -- Code for limited users
+end
