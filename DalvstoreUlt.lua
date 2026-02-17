@@ -108,7 +108,7 @@ local function showUnauthorizedPopup()
             Title = "Link copied",
             Text = "Paste on your browser to buy the script",
             Duration = 5,
-            Icon = "rbxassetid://90238157870123"
+            Icon = "rbxassetid://4483345998"
         })
     end)
     
@@ -118,7 +118,7 @@ local function showUnauthorizedPopup()
     
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Access Restricted",
-        Text = "You dont have full access",
+        Text = "You can only use Code and Auto tabs",
         Duration = 5
     })
 end
@@ -245,7 +245,7 @@ local VersionText = Instance.new("TextLabel")
 VersionText.Size = UDim2.new(0, 60, 0, 15)
 VersionText.Position = UDim2.new(1, -65, 1, -18)
 VersionText.BackgroundTransparency = 1
-VersionText.Text = "Premium V4.02EN"
+VersionText.Text = "Premium V2.03EN"
 VersionText.TextColor3 = Color3.fromRGB(180, 180, 180)
 VersionText.TextSize = 10
 VersionText.Font = Enum.Font.Gotham
@@ -753,8 +753,7 @@ local HatchDesc = Instance.new("TextLabel")
 HatchDesc.Size = UDim2.new(0, 220, 0, 30)
 HatchDesc.Position = UDim2.new(0, 15, 0, 60)
 HatchDesc.BackgroundTransparency = 1
-HatchDesc.Text = "Auto hatch last egg (make sure you have 10hatch gamepass)
-Super auto only working in world 2 and above"
+HatchDesc.Text = "Auto hatch last egg (make sure you have 10hatch gamepass)"
 HatchDesc.TextColor3 = Color3.fromRGB(200, 200, 200)
 HatchDesc.TextSize = 11
 HatchDesc.Font = Enum.Font.Gotham
@@ -804,7 +803,7 @@ SpeedRow.Parent = AutoFrame
 local SpeedLabel = Instance.new("TextLabel")
 SpeedLabel.Size = UDim2.new(0, 150, 1, 0)
 SpeedLabel.BackgroundTransparency = 1
-SpeedLabel.Text = "2x speed GP"
+SpeedLabel.Text = "100x speed GP"
 SpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedLabel.TextSize = 13
 SpeedLabel.Font = Enum.Font.GothamBold
@@ -883,7 +882,7 @@ CloseButton.Parent = MainFrame
 
 MiniIcon = Instance.new("ImageButton")
 MiniIcon.Size = UDim2.new(0, 67, 0, 67)
-MiniIcon.Position = UDim2.new(0, 35, 0, 430)
+MiniIcon.Position = UDim2.new(0, 50, 0, 100)
 MiniIcon.BackgroundTransparency = 1
 MiniIcon.Image = "rbxassetid://90238157870123"
 MiniIcon.ScaleType = Enum.ScaleType.Fit
