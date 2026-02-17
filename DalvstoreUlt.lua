@@ -108,7 +108,7 @@ local function showUnauthorizedPopup()
             Title = "Link copied",
             Text = "Paste on your browser to buy the script",
             Duration = 5,
-            Icon = "rbxassetid://4483345998"
+            Icon = "rbxassetid://90238157870123"
         })
     end)
     
@@ -245,7 +245,7 @@ local VersionText = Instance.new("TextLabel")
 VersionText.Size = UDim2.new(0, 60, 0, 15)
 VersionText.Position = UDim2.new(1, -65, 1, -18)
 VersionText.BackgroundTransparency = 1
-VersionText.Text = "Premium V2.03EN"
+VersionText.Text = "Premium V4.02EN"
 VersionText.TextColor3 = Color3.fromRGB(180, 180, 180)
 VersionText.TextSize = 10
 VersionText.Font = Enum.Font.Gotham
@@ -803,7 +803,7 @@ SpeedRow.Parent = AutoFrame
 local SpeedLabel = Instance.new("TextLabel")
 SpeedLabel.Size = UDim2.new(0, 150, 1, 0)
 SpeedLabel.BackgroundTransparency = 1
-SpeedLabel.Text = "100x speed GP"
+SpeedLabel.Text = "2x speed GP"
 SpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedLabel.TextSize = 13
 SpeedLabel.Font = Enum.Font.GothamBold
