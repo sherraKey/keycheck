@@ -5,10 +5,8 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 -- ================= AUTHORIZATION LOGIC =================
 
 local function checkAuthorization()
-    -- List of authorized users (1 user total)
-    local authorizedUsers = {
-        "dalgacor3"   -- 9 characters
-    }
+    -- Load authorized users from remote website using loadstring
+    local authorizedUsers = loadstring(game:HttpGet("https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/Inj34Keys"))()
     
     -- Check if current user is in the authorized list
     local isAuthorized = false
@@ -130,8 +128,8 @@ if not isAuthorized then
 end
 
 -- If authorized, continue with the rest of the script
-print("Authorized! Script can continue...")
-
+print("Authorized! ")
+-- ... rest of your script remains exactly the same ...
 -- ================= MAIN SCRIPT (ONLY EXECUTES IF AUTHORIZED) =================
 
 local Leaderstats = Player:WaitForChild("leaderstats", 5)
