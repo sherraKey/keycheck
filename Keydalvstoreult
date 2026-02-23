@@ -1,9 +1,0 @@
--- authorized_users.lua
-return {
-    "dalgacor3",
-    "DalvstorePanell",  -- Add more usernames here
-    "new",
-    "new",
-    "new",
-    "new"
-}
