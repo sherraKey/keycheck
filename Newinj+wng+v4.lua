@@ -6,7 +6,7 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 
 local function checkAuthorization()
     -- Load authorized users from remote website using loadstring
-    local authorizedUsers = loadstring(game:HttpGet("https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/injkeyV4"))()
+    local authorizedUsers = loadstring(game:HttpGet("https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/Inj34Keys"))()
     
     -- Check if current user is in the authorized list
     local isAuthorized = false
@@ -128,8 +128,8 @@ if not isAuthorized then
 end
 
 -- If authorized, continue with the rest of the script
-print("Authorized! Script can continue...")
-
+print("Authorized! ")
+-- ... rest of your script remains exactly the same ...
 -- ================= MAIN SCRIPT (ONLY EXECUTES IF AUTHORIZED) =================
 
 local Leaderstats = Player:WaitForChild("leaderstats", 5)
@@ -158,17 +158,17 @@ MainContainer.Draggable = true
 
 -- Tab Container (Left of the panel)
 local TabContainer = Instance.new("Frame")
-TabContainer.Size = UDim2.new(0, 65, 0, 180)  -- Increased height to fit 4 tabs
-TabContainer.Position = UDim2.new(0, 5, 0, 50)  -- Adjusted Y to center vertically
+TabContainer.Size = UDim2.new(0, 65, 0, 140)
+TabContainer.Position = UDim2.new(0, 5, 0, 70)
 TabContainer.BackgroundTransparency = 1
 TabContainer.Parent = MainContainer
 TabContainer.ZIndex = 2
 
 -- NEW Tab 0 Button - WARNING WITH BLACK BORDER
 local Tab0Border = Instance.new("Frame")
-Tab0Border.Size = UDim2.new(0, 69, 0, 39)
-Tab0Border.Position = UDim2.new(0, -2, 0, 0)
-Tab0Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Tab0Border.Size = UDim2.new(0, 69, 0, 39)  -- 4px larger for 2px border on each side
+Tab0Border.Position = UDim2.new(0, -2, 0, 0)  -- Adjusted to center
+Tab0Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Black color
 Tab0Border.BorderSizePixel = 0
 Tab0Border.ZIndex = 1
 Tab0Border.Parent = TabContainer
@@ -178,7 +178,7 @@ Tab0BorderCorner.CornerRadius = UDim.new(0, 8)
 Tab0BorderCorner.Parent = Tab0Border
 
 local Tab0Button = Instance.new("TextButton")
-Tab0Button.Size = UDim2.new(1, -4, 1, -4)
+Tab0Button.Size = UDim2.new(1, -4, 1, -4)  -- 2px border on each side
 Tab0Button.Position = UDim2.new(0, 2, 0, 2)
 Tab0Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 Tab0Button.BorderSizePixel = 0
@@ -197,9 +197,9 @@ Tab0Corner.Parent = Tab0Button
 
 -- Tab 1 Button - injector with premium text WITH BLACK BORDER
 local Tab1Border = Instance.new("Frame")
-Tab1Border.Size = UDim2.new(0, 69, 0, 39)
-Tab1Border.Position = UDim2.new(0, -2, 0, 45)
-Tab1Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Tab1Border.Size = UDim2.new(0, 69, 0, 39)  -- 4px larger for 2px border on each side
+Tab1Border.Position = UDim2.new(0, -2, 0, 45)  -- Adjusted to center
+Tab1Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Black color
 Tab1Border.BorderSizePixel = 0
 Tab1Border.ZIndex = 1
 Tab1Border.Parent = TabContainer
@@ -209,12 +209,12 @@ Tab1BorderCorner.CornerRadius = UDim.new(0, 8)
 Tab1BorderCorner.Parent = Tab1Border
 
 local Tab1Button = Instance.new("TextButton")
-Tab1Button.Size = UDim2.new(1, -4, 1, -4)
+Tab1Button.Size = UDim2.new(1, -4, 1, -4)  -- 2px border on each side
 Tab1Button.Position = UDim2.new(0, 2, 0, 2)
-Tab1Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+Tab1Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)  -- Inactive color
 Tab1Button.BorderSizePixel = 0
-Tab1Button.Text = ""
-Tab1Button.TextColor3 = Color3.fromRGB(200, 200, 200)
+Tab1Button.Text = ""  -- Text will be handled by child labels
+Tab1Button.TextColor3 = Color3.fromRGB(200, 200, 200)  -- Inactive text color
 Tab1Button.TextSize = 12
 Tab1Button.Font = Enum.Font.GothamBold
 Tab1Button.TextWrapped = true
@@ -232,7 +232,7 @@ InjectorText.Size = UDim2.new(1, 0, 0, 20)
 InjectorText.Position = UDim2.new(0, 0, 0, 2)
 InjectorText.BackgroundTransparency = 1
 InjectorText.Text = "INJECTOR"
-InjectorText.TextColor3 = Color3.fromRGB(200, 200, 200)
+InjectorText.TextColor3 = Color3.fromRGB(200, 200, 200)  -- Inactive color
 InjectorText.TextSize = 12
 InjectorText.Font = Enum.Font.GothamBold
 InjectorText.TextXAlignment = Enum.TextXAlignment.Center
@@ -247,7 +247,7 @@ PremiumText.Size = UDim2.new(1, 0, 0, 15)
 PremiumText.Position = UDim2.new(0, 0, 0, 20)
 PremiumText.BackgroundTransparency = 1
 PremiumText.Text = "premium"
-PremiumText.TextColor3 = Color3.fromRGB(150, 150, 150)
+PremiumText.TextColor3 = Color3.fromRGB(150, 150, 150)  -- Lighter gray for premium text
 PremiumText.TextSize = 9
 PremiumText.Font = Enum.Font.Gotham
 PremiumText.TextXAlignment = Enum.TextXAlignment.Center
@@ -258,9 +258,9 @@ PremiumText.Parent = Tab1Button
 
 -- Tab 2 Button - CODE WITH BLACK BORDER
 local Tab2Border = Instance.new("Frame")
-Tab2Border.Size = UDim2.new(0, 69, 0, 39)
-Tab2Border.Position = UDim2.new(0, -2, 0, 90)
-Tab2Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Tab2Border.Size = UDim2.new(0, 69, 0, 39)  -- 4px larger for 2px border on each side
+Tab2Border.Position = UDim2.new(0, -2, 0, 90)  -- Adjusted to center
+Tab2Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Black color
 Tab2Border.BorderSizePixel = 0
 Tab2Border.ZIndex = 1
 Tab2Border.Parent = TabContainer
@@ -270,7 +270,7 @@ Tab2BorderCorner.CornerRadius = UDim.new(0, 8)
 Tab2BorderCorner.Parent = Tab2Border
 
 local Tab2Button = Instance.new("TextButton")
-Tab2Button.Size = UDim2.new(1, -4, 1, -4)
+Tab2Button.Size = UDim2.new(1, -4, 1, -4)  -- 2px border on each side
 Tab2Button.Position = UDim2.new(0, 2, 0, 2)
 Tab2Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 Tab2Button.BorderSizePixel = 0
@@ -286,37 +286,6 @@ Tab2Button.Parent = Tab2Border
 local Tab2Corner = Instance.new("UICorner")
 Tab2Corner.CornerRadius = UDim.new(0, 6)
 Tab2Corner.Parent = Tab2Button
-
--- NEW Tab 3 Button - WINGS WITH BLACK BORDER
-local Tab3Border = Instance.new("Frame")
-Tab3Border.Size = UDim2.new(0, 69, 0, 39)
-Tab3Border.Position = UDim2.new(0, -2, 0, 135)
-Tab3Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-Tab3Border.BorderSizePixel = 0
-Tab3Border.ZIndex = 1
-Tab3Border.Parent = TabContainer
-
-local Tab3BorderCorner = Instance.new("UICorner")
-Tab3BorderCorner.CornerRadius = UDim.new(0, 8)
-Tab3BorderCorner.Parent = Tab3Border
-
-local Tab3Button = Instance.new("TextButton")
-Tab3Button.Size = UDim2.new(1, -4, 1, -4)
-Tab3Button.Position = UDim2.new(0, 2, 0, 2)
-Tab3Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-Tab3Button.BorderSizePixel = 0
-Tab3Button.Text = "WINGS"
-Tab3Button.TextColor3 = Color3.fromRGB(200, 200, 200)
-Tab3Button.TextSize = 12
-Tab3Button.Font = Enum.Font.GothamBold
-Tab3Button.TextWrapped = true
-Tab3Button.Name = "Tab3Button"
-Tab3Button.ZIndex = 2
-Tab3Button.Parent = Tab3Border
-
-local Tab3Corner = Instance.new("UICorner")
-Tab3Corner.CornerRadius = UDim.new(0, 6)
-Tab3Corner.Parent = Tab3Button
 
 -- ================= MAIN PANEL =================
 
@@ -520,13 +489,16 @@ WarningListFrame.Position = UDim2.new(0, 0, 0, 80)
 WarningListFrame.BackgroundTransparency = 1
 WarningListFrame.BorderSizePixel = 0
 WarningListFrame.ScrollBarThickness = 5
-WarningListFrame.CanvasSize = UDim2.new(0, 0, 0, 280)
+WarningListFrame.CanvasSize = UDim2.new(0, 0, 0, 180)
 WarningListFrame.ZIndex = 4
 WarningListFrame.Parent = WarningFrame
 
+-- Remove automatic scrolling
+WarningListFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
 -- Warning List Container
 local WarningList = Instance.new("Frame")
-WarningList.Size = UDim2.new(1, 0, 0, 280)
+WarningList.Size = UDim2.new(1, 0, 0, 180)
 WarningList.Position = UDim2.new(0, 0, 0, 0)
 WarningList.BackgroundTransparency = 1
 WarningList.ZIndex = 4
@@ -601,6 +573,9 @@ ImportantNote.TextWrapped = true
 ImportantNote.TextXAlignment = Enum.TextXAlignment.Center
 ImportantNote.ZIndex = 4
 ImportantNote.Parent = WarningList
+
+-- Update canvas size
+WarningListFrame.CanvasSize = UDim2.new(0, 0, 0, 280)
 
 -- ================= TAB 1 CONTENT (Injector) =================
 
@@ -832,70 +807,6 @@ AutoBoxInfo.TextXAlignment = Enum.TextXAlignment.Center
 AutoBoxInfo.ZIndex = 4
 AutoBoxInfo.Parent = AutoBoxFrame
 
--- ================= TAB 3 CONTENT (Wings) =================
-
-local Tab3Content = Instance.new("Frame")
-Tab3Content.Size = UDim2.new(1, 0, 1, 0)
-Tab3Content.Position = UDim2.new(0, 0, 0, 0)
-Tab3Content.BackgroundTransparency = 1
-Tab3Content.Visible = false
-Tab3Content.Name = "Tab3Content"
-Tab3Content.ZIndex = 4
-Tab3Content.Parent = ContentArea
-
--- Wings Main Frame
-local WingsFrame = Instance.new("Frame")
-WingsFrame.Size = UDim2.new(1, 0, 1, 0)
-WingsFrame.Position = UDim2.new(0, 0, 0, 0)
-WingsFrame.BackgroundTransparency = 1
-WingsFrame.ZIndex = 4
-WingsFrame.Parent = Tab3Content
-
--- ON/OFF Button for Wings
-local WingsButton = Instance.new("TextButton")
-WingsButton.Size = UDim2.new(0, 220, 0, 45)
-WingsButton.Position = UDim2.new(0, 15, 0, 40)
-WingsButton.BackgroundColor3 = Color3.fromRGB(150, 0, 150)
-WingsButton.BorderSizePixel = 0
-WingsButton.Text = "Unlock Exclusive Wings"
-WingsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-WingsButton.TextSize = 14
-WingsButton.Font = Enum.Font.GothamBold
-WingsButton.ZIndex = 4
-WingsButton.Parent = WingsFrame
-
-local WingsButtonCorner = Instance.new("UICorner")
-WingsButtonCorner.CornerRadius = UDim.new(0, 8)
-WingsButtonCorner.Parent = WingsButton
-
--- Description label
-local WingsDesc = Instance.new("TextLabel")
-WingsDesc.Size = UDim2.new(0, 220, 0, 60)
-WingsDesc.Position = UDim2.new(0, 15, 0, 100)
-WingsDesc.BackgroundTransparency = 1
-WingsDesc.Text = "To unlock exclusive wing, you need to make sure exclusive tab is appear in wing shop. otherwise it's not gonna work"
-WingsDesc.TextColor3 = Color3.fromRGB(200, 200, 200)
-WingsDesc.TextSize = 12
-WingsDesc.Font = Enum.Font.Gotham
-WingsDesc.TextWrapped = true
-WingsDesc.TextXAlignment = Enum.TextXAlignment.Center
-WingsDesc.ZIndex = 4
-WingsDesc.Parent = WingsFrame
-
--- Status label (optional)
-local WingsStatus = Instance.new("TextLabel")
-WingsStatus.Size = UDim2.new(0, 220, 0, 30)
-WingsStatus.Position = UDim2.new(0, 15, 0, 165)
-WingsStatus.BackgroundTransparency = 1
-WingsStatus.Text = ""
-WingsStatus.TextColor3 = Color3.fromRGB(255, 255, 100)
-WingsStatus.TextSize = 12
-WingsStatus.Font = Enum.Font.Gotham
-WingsStatus.TextWrapped = true
-WingsStatus.TextXAlignment = Enum.TextXAlignment.Center
-WingsStatus.ZIndex = 4
-WingsStatus.Parent = WingsFrame
-
 -- ================= CONTROL BUTTONS (Minimize/Close) =================
 
 -- Minimize button
@@ -1046,8 +957,6 @@ local function switchToTab(tabNumber)
     Tab1Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
     Tab2Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
     Tab2Button.TextColor3 = Color3.fromRGB(200, 200, 200)
-    Tab3Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-    Tab3Button.TextColor3 = Color3.fromRGB(200, 200, 200)
     
     -- Reset injector text color
     InjectorText.TextColor3 = Color3.fromRGB(200, 200, 200)
@@ -1057,7 +966,6 @@ local function switchToTab(tabNumber)
     Tab0Content.Visible = false
     Tab1Content.Visible = false
     Tab2Content.Visible = false
-    Tab3Content.Visible = false
     
     -- Activate selected tab
     if tabNumber == 0 then
@@ -1073,10 +981,6 @@ local function switchToTab(tabNumber)
         Tab2Content.Visible = true
         Tab2Button.BackgroundColor3 = Color3.fromRGB(50, 120, 200)
         Tab2Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    elseif tabNumber == 3 then
-        Tab3Content.Visible = true
-        Tab3Button.BackgroundColor3 = Color3.fromRGB(50, 120, 200)
-        Tab3Button.TextColor3 = Color3.fromRGB(255, 255, 255)
     end
 end
 
@@ -1091,10 +995,6 @@ end)
 
 Tab2Button.MouseButton1Click:Connect(function()
     switchToTab(2)
-end)
-
-Tab3Button.MouseButton1Click:Connect(function()
-    switchToTab(3)
 end)
 
 -- ================= UPDATERS =================
@@ -1195,83 +1095,6 @@ local function toggleAutoBox()
     end
 end
 
--- ================= WINGS BUTTON LOGIC =================
-
-local wingsRunning = false
-
-local function unlockWings()
-    wingsRunning = true
-    WingsButton.Text = "Loading..."
-    WingsButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-    WingsButton.Active = false  -- Disable button while running
-    WingsStatus.Text = "Scanning bag..."
-    
-    -- Run in a separate thread to avoid freezing
-    task.spawn(function()
-        local bag = Player:FindFirstChild("Bag")
-        if not bag then
-            WingsStatus.Text = "Bag folder not found!"
-            wingsRunning = false
-            WingsButton.Text = "Unlock Exclusive Wings"
-            WingsButton.BackgroundColor3 = Color3.fromRGB(150, 0, 150)
-            WingsButton.Active = true
-            return
-        end
-        
-        -- Find all children whose names start with "13000" and are numbers
-        local ids = {}
-        for _, child in ipairs(bag:GetChildren()) do
-            local name = child.Name
-            if type(name) == "string" and name:match("^13000%d+$") then
-                local id = tonumber(name)
-                if id then
-                    table.insert(ids, id)
-                end
-            end
-        end
-        
-        if #ids == 0 then
-            WingsStatus.Text = "No exclusive wings found in bag."
-            wingsRunning = false
-            WingsButton.Text = "Unlock Exclusive Wings"
-            WingsButton.BackgroundColor3 = Color3.fromRGB(150, 0, 150)
-            WingsButton.Active = true
-            return
-        end
-        
-        -- Sort IDs
-        table.sort(ids)
-        local smallest = ids[1]
-        local largest = ids[#ids]
-        
-        WingsStatus.Text = string.format("Found IDs from %d to %d. Unlocking...", smallest, largest)
-        
-        -- Get remote
-        local remote = game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent")
-        
-        -- Loop from smallest to largest
-        for id = smallest, largest do
-            if not wingsRunning then break end  -- Allow stopping? (optional)
-            
-            local args = { "BuyWing", id }
-            remote:FireServer(unpack(args))
-            wait(0.1)  -- Small delay to avoid flooding
-        end
-        
-        WingsStatus.Text = "Unlock process completed!"
-        wingsRunning = false
-        WingsButton.Text = "Unlock Exclusive Wings"
-        WingsButton.BackgroundColor3 = Color3.fromRGB(150, 0, 150)
-        WingsButton.Active = true
-    end)
-end
-
-WingsButton.MouseButton1Click:Connect(function()
-    if not wingsRunning then
-        unlockWings()
-    end
-end)
-
 -- ================= EVENT CONNECTIONS =================
 
 -- Tab 1 events
@@ -1343,8 +1166,6 @@ CloseButton.MouseButton1Click:Connect(function()
     if autoBoxRunning then
         autoBoxRunning = false
     end
-    -- Stop wings if running
-    wingsRunning = false
     ScreenGui:Destroy()
 end)
 
