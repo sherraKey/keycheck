@@ -803,7 +803,7 @@ SpeedRow.Parent = AutoFrame
 local SpeedLabel = Instance.new("TextLabel")
 SpeedLabel.Size = UDim2.new(0, 150, 1, 0)
 SpeedLabel.BackgroundTransparency = 1
-SpeedLabel.Text = "100x speed GP"
+SpeedLabel.Text = "2x speed GP"
 SpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedLabel.TextSize = 13
 SpeedLabel.Font = Enum.Font.GothamBold
@@ -1233,7 +1233,7 @@ ClimbToggle.MouseButton1Click:Connect(function()
     updateClimbButton()
 end)
 
--- ================= 100x SPEED GP LOGIC =================
+-- ================= 2x SPEED GP LOGIC =================
 local originalSpeed = nil
 local hundredSpeed = nil
 local speedIsOn = false
@@ -1254,16 +1254,16 @@ SpeedToggle.MouseButton1Click:Connect(function()
 
     if not speedIsOn then
         originalSpeed = avatarSpeed.Value
-        hundredSpeed = originalSpeed * 100
-        avatarSpeed.Value = hundredSpeed
+        doubleSpeed = originalSpeed * 2
+        avatarSpeed.Value = doubleSpeed
         speedIsOn = true
     else
-        if avatarSpeed.Value == hundredSpeed then
+        if avatarSpeed.Value == doubleSpeed then
             avatarSpeed.Value = originalSpeed
         end
         speedIsOn = false
         originalSpeed = nil
-        hundredSpeed = nil
+        doubleSpeed = nil
     end
     updateSpeedButton()
 end)
