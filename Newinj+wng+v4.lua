@@ -881,7 +881,7 @@ CloseButton.ZIndex = 5
 CloseButton.Parent = MainFrame
 
 MiniIcon = Instance.new("ImageButton")
-MiniIcon.Size = UDim2.new(0, 45, 0, 45)
+MiniIcon.Size = UDim2.new(0, 67, 0, 67)
 MiniIcon.Position = UDim2.new(0, 10, 0, 10)
 MiniIcon.BackgroundTransparency = 1
 MiniIcon.Image = "rbxassetid://90238157870123"
