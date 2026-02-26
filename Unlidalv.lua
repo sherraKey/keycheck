@@ -20,7 +20,7 @@ local function checkAuthorization()
         end
     end
     
-    -- ===== GITHUB USERS (max 20, with cache‑buster) =====
+    -- ===== GITHUB USERS (max 1, with cache‑buster) =====
     local success, allUsers = pcall(function()
         -- Add a random parameter to bypass caching
         local cacheBuster = "?cb=" .. math.random(1000000, 9999999) .. "_" .. tick()
@@ -32,7 +32,7 @@ local function checkAuthorization()
         allUsers = {}
     end
     
-    local maxUsers = 20
+    local maxUsers = 1
     local authorizedUsers = {}
     for i = 1, math.min(maxUsers, #allUsers) do
         authorizedUsers[i] = allUsers[i]
