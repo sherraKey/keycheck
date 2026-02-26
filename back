@@ -716,18 +716,6 @@ WingsDesc.TextWrapped = true
 WingsDesc.TextXAlignment = Enum.TextXAlignment.Center
 WingsDesc.Parent = WingsFrame
 
-WingsStatus = Instance.new("TextLabel")
-WingsStatus.Size = UDim2.new(0, 220, 0, 30)
-WingsStatus.Position = UDim2.new(0, 15, 0, 165)
-WingsStatus.BackgroundTransparency = 1
-WingsStatus.Text = ""
-WingsStatus.TextColor3 = Color3.fromRGB(255, 255, 100)
-WingsStatus.TextSize = 12
-WingsStatus.Font = Enum.Font.Gotham
-WingsStatus.TextWrapped = true
-WingsStatus.TextXAlignment = Enum.TextXAlignment.Center
-WingsStatus.Parent = WingsFrame
-
 -- ================= TAB 4 CONTENT (AUTO) =================
 local AutoFrame = Instance.new("Frame")
 AutoFrame.Size = UDim2.new(1, 0, 1, 0)
@@ -1114,6 +1102,7 @@ local function toggleAutoBox()
 end
 
 -- ================= WINGS LOGIC =================
+-- ================= WINGS LOGIC (UPDATED) =================
 local wingsRunning = false
 
 local function unlockWings()
@@ -1132,14 +1121,21 @@ local function unlockWings()
             WingsButton.Active = true
             return
         end
+        
         local ids = {}
         for _, child in ipairs(bag:GetChildren()) do
             local name = child.Name
             if type(name)=="string" and name:match("^13000%d+$") then
                 local id = tonumber(name)
-                if id then table.insert(ids, id) end
+                if id and child:IsA("NumberValue") then
+                    -- Only add if value is 0 (skip if value is 1)
+                    if child.Value == 0 then
+                        table.insert(ids, id)
+                    end
+                end
             end
         end
+        
         if #ids == 0 then
             WingsStatus.Text = "No exclusive wings found in bag."
             wingsRunning = false
@@ -1148,16 +1144,19 @@ local function unlockWings()
             WingsButton.Active = true
             return
         end
+        
         table.sort(ids)
-        local smallest = ids[1]
-        local largest = ids[#ids]
-        WingsStatus.Text = string.format("Found IDs from %d to %d. Unlocking...", smallest, largest)
+        -- Hide ID range; show only "Unlocking..."
+        WingsStatus.Text = "Unlocking..."
         local remote = game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent")
-        for id = smallest, largest do
+        
+        -- Loop through each collected ID (only those with value 0)
+        for _, id in ipairs(ids) do
             if not wingsRunning then break end
             remote:FireServer("BuyWing", id)
             wait(0.1)
         end
+        
         WingsStatus.Text = "Unlock process completed!"
         wingsRunning = false
         WingsButton.Text = "Unlock Exclusive Wings"
@@ -1170,7 +1169,6 @@ WingsButton.MouseButton1Click:Connect(function()
     if not isFullAuthorized then showUnauthorizedPopup(); return end
     if not wingsRunning then unlockWings() end
 end)
-
 -- ================= HATCH LOGIC =================
 local hatchRunning = false
 local hatchThread = nil
