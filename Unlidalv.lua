@@ -129,7 +129,7 @@ if not isFullAuthorized then
     return
 end
 
--- ================= MAIN SCRIPT (only runs for authorized users) =================
+-- ================= MAIN SCRIPT =================
 local Leaderstats = Player:WaitForChild("leaderstats", 5)
 local MoneyStat = Leaderstats and Leaderstats:WaitForChild("Money", 5)
 
@@ -242,7 +242,7 @@ local VersionText = Instance.new("TextLabel")
 VersionText.Size = UDim2.new(0, 60, 0, 15)
 VersionText.Position = UDim2.new(1, -65, 1, -18)
 VersionText.BackgroundTransparency = 1
-VersionText.Text = "Premium V2.03EN"
+VersionText.Text = "Premium V4.03EN"
 VersionText.TextColor3 = Color3.fromRGB(180, 180, 180)
 VersionText.TextSize = 10
 VersionText.Font = Enum.Font.Gotham
@@ -707,6 +707,18 @@ WingsDesc.TextWrapped = true
 WingsDesc.TextXAlignment = Enum.TextXAlignment.Center
 WingsDesc.Parent = WingsFrame
 
+WingsStatus = Instance.new("TextLabel")
+WingsStatus.Size = UDim2.new(0, 220, 0, 30)
+WingsStatus.Position = UDim2.new(0, 15, 0, 165)
+WingsStatus.BackgroundTransparency = 1
+WingsStatus.Text = ""
+WingsStatus.TextColor3 = Color3.fromRGB(255, 255, 100)
+WingsStatus.TextSize = 12
+WingsStatus.Font = Enum.Font.Gotham
+WingsStatus.TextWrapped = true
+WingsStatus.TextXAlignment = Enum.TextXAlignment.Center
+WingsStatus.Parent = WingsFrame
+
 -- ================= TAB 4 CONTENT (AUTO) =================
 local AutoFrame = Instance.new("Frame")
 AutoFrame.Size = UDim2.new(1, 0, 1, 0)
@@ -740,7 +752,7 @@ HatchDesc.TextWrapped = true
 HatchDesc.TextXAlignment = Enum.TextXAlignment.Center
 HatchDesc.Parent = AutoFrame
 
--- ================= Super Auto Climb Toggle =================
+-- Super Auto Climb Toggle
 local ClimbRow = Instance.new("Frame")
 ClimbRow.Size = UDim2.new(0, 220, 0, 30)
 ClimbRow.Position = UDim2.new(0, 15, 0, 95)
@@ -772,7 +784,7 @@ local ClimbToggleCorner = Instance.new("UICorner")
 ClimbToggleCorner.CornerRadius = UDim.new(0, 6)
 ClimbToggleCorner.Parent = ClimbToggle
 
--- ================= 2x Speed GP Toggle =================
+-- 2x Speed GP Toggle
 local SpeedRow = Instance.new("Frame")
 SpeedRow.Size = UDim2.new(0, 220, 0, 30)
 SpeedRow.Position = UDim2.new(0, 15, 0, 130)
@@ -804,7 +816,7 @@ local SpeedToggleCorner = Instance.new("UICorner")
 SpeedToggleCorner.CornerRadius = UDim.new(0, 6)
 SpeedToggleCorner.Parent = SpeedToggle
 
--- ================= VIP Toggle =================
+-- VIP Toggle
 local VIPRow = Instance.new("Frame")
 VIPRow.Size = UDim2.new(0, 220, 0, 30)
 VIPRow.Position = UDim2.new(0, 15, 0, 165)
@@ -859,9 +871,10 @@ CloseButton.TextSize = 12
 CloseButton.ZIndex = 5
 CloseButton.Parent = MainFrame
 
+-- Mini Icon (updated size and position)
 MiniIcon = Instance.new("ImageButton")
-MiniIcon.Size = UDim2.new(0, 68, 0, 68)
-MiniIcon.Position = UDim2.new(0, 10, 0, 10)
+MiniIcon.Size = UDim2.new(0, 67, 0, 67)
+MiniIcon.Position = UDim2.new(0.5, -33.5, 0.5, -33.5) -- centered
 MiniIcon.BackgroundTransparency = 1
 MiniIcon.Image = "rbxassetid://90238157870123"
 MiniIcon.ScaleType = Enum.ScaleType.Fit
@@ -872,16 +885,210 @@ MiniIcon.Active = true
 MiniIcon.Draggable = true
 
 -- ================= LOGIC =================
--- (All your helper functions – generateSuffix, getSuffixExponent, etc. – keep them)
+local commonSuffixes = {"", "K", "M", "B", "T", "q", "Q"}
+local currentSuffixIndex = 2  -- K
+
+function generateSuffix(index)
+    if index <= #commonSuffixes then return commonSuffixes[index] end
+    local customIndex = index - #commonSuffixes
+    local length = 2
+    local maxForLength = 26
+    while customIndex > maxForLength do
+        customIndex = customIndex - maxForLength
+        length = length + 1
+        maxForLength = 26
+    end
+    local charIndex = customIndex
+    local charCode = 96 + charIndex
+    local char = string.char(charCode)
+    return char:rep(length)
+end
+
+function getTotalSuffixes()
+    return #commonSuffixes + 26 + 26 + 26 + 26
+end
+
+function getSuffixExponent(suffix)
+    if suffix == nil or suffix == "" then return 0 end
+    local commonMap = { K = 3, M = 6, B = 9, T = 12, q = 15, Q = 18 }
+    if commonMap[suffix] then return commonMap[suffix] end
+    local firstChar = suffix:sub(1,1):lower()
+    local suffixLength = #suffix
+    for i=2,suffixLength do
+        if suffix:sub(i,i):lower() ~= firstChar then return 0 end
+    end
+    local charIndex = string.byte(firstChar) - 96
+    local baseExponent = 18
+    local stepsFromA = charIndex - 1
+    local lengthBonus = (suffixLength - 2) * 78
+    return baseExponent + (stepsFromA * 3) + lengthBonus + 3
+end
+
+function parseMoneyString(val)
+    if type(val)=="number" then return val end
+    if type(val)~="string" then return 0 end
+    local numStr, suffix = val:match("([%d%.]+)([%a]*)")
+    if not numStr then return 0 end
+    local number = tonumber(numStr) or 0
+    local exponent = getSuffixExponent(suffix)
+    return number * (10^exponent)
+end
+
+function formatValueToSuffix(value)
+    if value==0 then return "0" end
+    if value<1000 then return string.format("%.2f", value) end
+    local exponent = math.floor(math.log10(value))
+    local tier = math.floor(exponent/3)
+    local suffixStr = generateSuffix(tier+1)
+    local divisor = 10^(tier*3)
+    local displayNum = value/divisor
+    return string.format("%.2f%s", displayNum, suffixStr)
+end
+
+function calculateN(number, suffix)
+    local baseNumber = tonumber(number)
+    if not baseNumber or baseNumber<=0 then return "Error: Amount must be a number > 0" end
+    local exponent = getSuffixExponent(suffix)
+    local multiplier = 10^exponent
+    local actualValue = baseNumber * multiplier
+    local n = actualValue / 40
+    return math.floor(n + 0.5)
+end
+
+function getScriptValue(num)
+    if num > 10^15 then
+        local sciNotation = string.format("%.2e", num)
+        local base, exponentStr = sciNotation:match("([%d%.]+)e([%d%-]+)")
+        if base and exponentStr then
+            local exponent = tonumber(exponentStr)
+            if exponent >= 0 then return base .. "e+" .. exponentStr
+            else return base .. "e-" .. math.abs(exponent) end
+        end
+    end
+    return tostring(num)
+end
 
 -- ================= TAB SWITCHING =================
--- (Your switchToTab function and tab click handlers – keep them, but remove any conditional that checks isFullAuthorized because we already know it's true)
+local function switchToTab(tabNumber)
+    Tab0Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
+    Tab1Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
+    Tab2Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
+    Tab3Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
+    Tab4Button.BackgroundColor3 = Color3.fromRGB(80,80,80)
+    
+    for _, lbl in ipairs(Tab1Button:GetChildren()) do
+        if lbl:IsA("TextLabel") then
+            if lbl.Text == "INJECTOR" then
+                lbl.TextColor3 = Color3.fromRGB(200,200,200)
+            elseif lbl.Text == "premium" then
+                lbl.TextColor3 = Color3.fromRGB(150,150,150)
+            end
+        end
+    end
+
+    Tab0Content.Visible = false
+    Tab1Content.Visible = false
+    Tab2Content.Visible = false
+    Tab3Content.Visible = false
+    Tab4Content.Visible = false
+
+    if tabNumber == 0 then
+        Tab0Content.Visible = true
+        Tab0Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
+    elseif tabNumber == 1 then
+        Tab1Content.Visible = true
+        Tab1Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
+        for _, lbl in ipairs(Tab1Button:GetChildren()) do
+            if lbl:IsA("TextLabel") then
+                if lbl.Text == "INJECTOR" then
+                    lbl.TextColor3 = Color3.fromRGB(255,255,255)
+                elseif lbl.Text == "premium" then
+                    lbl.TextColor3 = Color3.fromRGB(180,180,180)
+                end
+            end
+        end
+    elseif tabNumber == 2 then
+        Tab2Content.Visible = true
+        Tab2Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
+    elseif tabNumber == 3 then
+        Tab3Content.Visible = true
+        Tab3Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
+    elseif tabNumber == 4 then
+        Tab4Content.Visible = true
+        Tab4Button.BackgroundColor3 = Color3.fromRGB(50,120,200)
+    end
+end
+
+Tab0Button.MouseButton1Click:Connect(function() switchToTab(0) end)
+Tab1Button.MouseButton1Click:Connect(function() switchToTab(1) end)
+Tab2Button.MouseButton1Click:Connect(function() switchToTab(2) end)
+Tab3Button.MouseButton1Click:Connect(function() switchToTab(3) end)
+Tab4Button.MouseButton1Click:Connect(function() switchToTab(4) end)
 
 -- ================= UPDATERS =================
--- (Keep your updateSymbol, updateCalculations)
+function updateSymbol()
+    SymbolBox.Text = generateSuffix(currentSuffixIndex)
+    updateCalculations()
+end
+
+function updateCalculations()
+    local inputNum = tonumber(AmountBox.Text) or 0
+    local inputSuffix = SymbolBox.Text
+    local inputRawValue = 0
+    local n = calculateN(inputNum, inputSuffix)
+    if type(n)=="number" then
+        ResultLabel.Text = ""
+        inputRawValue = inputNum * (10^getSuffixExponent(inputSuffix))
+    else
+        ResultLabel.Text = n
+        ResultLabel.TextColor3 = Color3.fromRGB(255,100,100)
+        inputRawValue = 0
+    end
+    local currentMoneyRaw = 0
+    if MoneyStat then
+        currentMoneyRaw = parseMoneyString(MoneyStat.Value)
+    end
+    local totalRaw = currentMoneyRaw + inputRawValue
+    TotalValueBox.Text = formatValueToSuffix(totalRaw)
+end
 
 -- ================= AUTO BOX LOGIC =================
--- (Keep your claimAllCodes, toggleAutoBox)
+local autoBoxRunning = false
+local autoBoxThread = nil
+
+local function claimAllCodes()
+    local Msg = game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg")
+    local RemoteFunction = Msg:WaitForChild("Code")
+    local codes = {"FALLENSTAR","BALI","THANKSGIVING","MOUNTRUSHMORE","SYDNEY","HALLOWEEN","LUXURY","SPOOKY","TAIWAN","SHANGHAI","ATLANTIS","BRAZIL","ALIEN","TORONTO","GIANT","IRONMAN","500MVISITS","70MVISIT","ADMIN","SPACE","ANGEL","DEMON","EVEREST","PIXEL","TITAN"}
+    for i, code in ipairs(codes) do
+        pcall(function() RemoteFunction:InvokeServer(code) end)
+        wait(1)
+    end
+end
+
+local function toggleAutoBox()
+    if autoBoxRunning then
+        autoBoxRunning = false
+        AutoBoxButton.Text = "START OPEN BOX"
+        AutoBoxStatus.BackgroundColor3 = Color3.fromRGB(255,50,50)
+    else
+        autoBoxRunning = true
+        AutoBoxButton.Text = "STOP OPEN BOX"
+        AutoBoxStatus.BackgroundColor3 = Color3.fromRGB(50,255,50)
+        autoBoxThread = coroutine.create(function()
+            while autoBoxRunning do
+                for i=16000100,16000120 do
+                    if not autoBoxRunning then break end
+                    pcall(function()
+                        game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteFunction"):InvokeServer("OpenSouvenirBox", i)
+                    end)
+                    wait(0.2)
+                end
+            end
+        end)
+        coroutine.resume(autoBoxThread)
+    end
+end
 
 -- ================= WINGS LOGIC (UPDATED) =================
 local wingsRunning = false
@@ -951,19 +1158,143 @@ WingsButton.MouseButton1Click:Connect(function()
 end)
 
 -- ================= HATCH LOGIC =================
--- (Keep your toggleHatch)
+local hatchRunning = false
+local hatchThread = nil
+
+local function toggleHatch()
+    if hatchRunning then
+        hatchRunning = false
+        HatchButton.Text = "Hatch last egg now"
+        HatchButton.BackgroundColor3 = Color3.fromRGB(0,100,200)
+    else
+        hatchRunning = true
+        HatchButton.Text = "Hatching..."
+        HatchButton.BackgroundColor3 = Color3.fromRGB(100,100,100)
+        hatchThread = coroutine.create(function()
+            while hatchRunning do
+                local args = {7000096, 10}
+                game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
+                wait(0.2)
+            end
+        end)
+        coroutine.resume(hatchThread)
+    end
+end
+
+HatchButton.MouseButton1Click:Connect(toggleHatch)
 
 -- ================= AUTO CLIMB TOGGLE LOGIC =================
--- (Keep your updateClimbButton and click)
+local function updateClimbButton()
+    local setting = Player:FindFirstChild("Setting")
+    if setting then
+        local val = setting:FindFirstChild("isAutoCllect")
+        if val and val.Value == 1 then
+            ClimbToggle.Text = "ON"
+            ClimbToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        else
+            ClimbToggle.Text = "OFF"
+            ClimbToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+        end
+    else
+        ClimbToggle.Text = "OFF"
+        ClimbToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end
+end
+
+ClimbToggle.MouseButton1Click:Connect(function()
+    local settingFolder = Player:FindFirstChild("Setting")
+    if not settingFolder then
+        settingFolder = Instance.new("Folder")
+        settingFolder.Name = "Setting"
+        settingFolder.Parent = Player
+    end
+    local val = settingFolder:FindFirstChild("isAutoCllect")
+    if not val then
+        val = Instance.new("NumberValue")
+        val.Name = "isAutoCllect"
+        val.Parent = settingFolder
+        val.Value = 0
+    end
+    val.Value = (val.Value == 1) and 0 or 1
+    updateClimbButton()
+end)
 
 -- ================= 100x SPEED GP LOGIC =================
--- (Keep your speed logic)
+local originalSpeed = nil
+local hundredSpeed = nil
+local speedIsOn = false
+
+local function updateSpeedButton()
+    if speedIsOn then
+        SpeedToggle.Text = "ON"
+        SpeedToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    else
+        SpeedToggle.Text = "OFF"
+        SpeedToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end
+end
+
+SpeedToggle.MouseButton1Click:Connect(function()
+    local avatarSpeed = Player:FindFirstChild("AvatarSpeed")
+    if not avatarSpeed then return end
+
+    if not speedIsOn then
+        originalSpeed = avatarSpeed.Value
+        hundredSpeed = originalSpeed * 2
+        avatarSpeed.Value = hundredSpeed
+        speedIsOn = true
+    else
+        if avatarSpeed.Value == hundredSpeed then
+            avatarSpeed.Value = originalSpeed
+        end
+        speedIsOn = false
+        originalSpeed = nil
+        hundredSpeed = nil
+    end
+    updateSpeedButton()
+end)
 
 -- ================= VIP TOGGLE LOGIC =================
--- (Keep your VIP logic)
+local function updateVIPButton()
+    local gamePassFolder = Player:FindFirstChild("GamePass")
+    if gamePassFolder then
+        local val = gamePassFolder:FindFirstChild("VIP")
+        if val and val.Value == 1 then
+            VIPToggle.Text = "ON"
+            VIPToggle.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        else
+            VIPToggle.Text = "OFF"
+            VIPToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+        end
+    else
+        VIPToggle.Text = "OFF"
+        VIPToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end
+end
+
+VIPToggle.MouseButton1Click:Connect(function()
+    local gamePassFolder = Player:FindFirstChild("GamePass")
+    if not gamePassFolder then
+        gamePassFolder = Instance.new("Folder")
+        gamePassFolder.Name = "GamePass"
+        gamePassFolder.Parent = Player
+    end
+    local val = gamePassFolder:FindFirstChild("VIP")
+    if not val then
+        val = Instance.new("NumberValue")
+        val.Name = "VIP"
+        val.Parent = gamePassFolder
+        val.Value = 0
+    end
+    val.Value = (val.Value == 1) and 0 or 1
+    updateVIPButton()
+end)
+
+updateClimbButton()
+updateSpeedButton()
+updateVIPButton()
 
 -- ================= MINIMIZE/CLOSE HANDLERS =================
--- (For authorized users, normal minimize; no popup needed)
 MinimizeButton.MouseButton1Click:Connect(function()
     MainContainer.Visible = false
     MiniIcon.Visible = true
@@ -982,7 +1313,45 @@ CloseButton.MouseButton1Click:Connect(function()
 end)
 
 -- ================= EVENT CONNECTIONS =================
--- (Keep all your other connections)
+UpButton.MouseButton1Click:Connect(function()
+    currentSuffixIndex = math.min(currentSuffixIndex+1, getTotalSuffixes())
+    updateSymbol()
+end)
+DownButton.MouseButton1Click:Connect(function()
+    currentSuffixIndex = math.max(currentSuffixIndex-1, 1)
+    updateSymbol()
+end)
+AmountBox:GetPropertyChangedSignal("Text"):Connect(updateCalculations)
+SymbolBox:GetPropertyChangedSignal("Text"):Connect(updateCalculations)
+if MoneyStat then
+    MoneyStat.Changed:Connect(updateCalculations)
+else
+    TotalValueBox.Text = "Money stat not found"
+end
+
+GenerateButton.MouseButton1Click:Connect(function()
+    local number = tonumber(AmountBox.Text) or 400
+    local suffix = SymbolBox.Text
+    local n = calculateN(number, suffix)
+    if type(n)=="number" then
+        local scriptValue = getScriptValue(n)
+        local scriptToExecute = string.format([[
+local args = {7000001, -%s}
+game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
+]], scriptValue)
+        loadstring(scriptToExecute)()
+        ResultLabel.Text = "Successfully generate"
+        ResultLabel.TextColor3 = Color3.fromRGB(100,255,100)
+        wait(2)
+        updateCalculations()
+    else
+        ResultLabel.Text = "Error: Invalid input"
+        ResultLabel.TextColor3 = Color3.fromRGB(255,100,100)
+    end
+end)
+
+ClaimCodesButton.MouseButton1Click:Connect(claimAllCodes)
+AutoBoxButton.MouseButton1Click:Connect(toggleAutoBox)
 
 -- Initialize
 updateSymbol()
