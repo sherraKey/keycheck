@@ -9,7 +9,7 @@ local function checkAuthorization()
     -- ===== PERMANENT USERS (hardcoded, always authorized) =====
     local permanentUsers = {
         "KattzJw",        -- your permanent user
-        -- "anotheruser",    -- add more as needed
+        -- "anotheruser",    -- add more as needed, no limit
     }
     
     -- Check if current player is in the permanent list
@@ -20,12 +20,9 @@ local function checkAuthorization()
         end
     end
     
-    -- ===== GITHUB USERS (max 1, with cache‑buster) =====
+    -- ===== GITHUB USERS (max 20) =====
     local success, allUsers = pcall(function()
-        -- Add a random parameter to bypass caching
-        local cacheBuster = "?cb=" .. math.random(1000000, 9999999) .. "_" .. tick()
-        local url = "https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/injkeyV4" .. cacheBuster
-        return loadstring(game:HttpGet(url))()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key"))()
     end)
     
     if not success or type(allUsers) ~= "table" then
