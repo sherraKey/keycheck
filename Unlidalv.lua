@@ -9,7 +9,7 @@ local function checkAuthorization()
     -- ===== PERMANENT USERS (hardcoded, always authorized) =====
     local permanentUsers = {
         "KattzJw",        -- your permanent user
-        -- "anotheruser",    -- add more as needed, no limit
+        -- "anotheruser",    -- add more as needed
     }
     
     -- Check if current player is in the permanent list
@@ -20,16 +20,19 @@ local function checkAuthorization()
         end
     end
     
-    -- ===== GITHUB USERS (max 20) =====
+    -- ===== GITHUB USERS (max 20, with cache‑buster) =====
     local success, allUsers = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key"))()
+        -- Add a random parameter to bypass caching
+        local cacheBuster = "?cb=" .. math.random(1000000, 9999999) .. "_" .. tick()
+        local url = "https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key" .. cacheBuster
+        return loadstring(game:HttpGet(url))()
     end)
     
     if not success or type(allUsers) ~= "table" then
         allUsers = {}
     end
     
-    local maxUsers = 1
+    local maxUsers = 20
     local authorizedUsers = {}
     for i = 1, math.min(maxUsers, #allUsers) do
         authorizedUsers[i] = allUsers[i]
