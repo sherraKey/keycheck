@@ -740,6 +740,102 @@ HatchDesc.TextWrapped = true
 HatchDesc.TextXAlignment = Enum.TextXAlignment.Center
 HatchDesc.Parent = AutoFrame
 
+-- ================= Super Auto Climb Toggle =================
+local ClimbRow = Instance.new("Frame")
+ClimbRow.Size = UDim2.new(0, 220, 0, 30)
+ClimbRow.Position = UDim2.new(0, 15, 0, 95)
+ClimbRow.BackgroundTransparency = 1
+ClimbRow.Parent = AutoFrame
+
+local ClimbLabel = Instance.new("TextLabel")
+ClimbLabel.Size = UDim2.new(0, 150, 1, 0)
+ClimbLabel.BackgroundTransparency = 1
+ClimbLabel.Text = "Super Auto Climb"
+ClimbLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClimbLabel.TextSize = 13
+ClimbLabel.Font = Enum.Font.GothamBold
+ClimbLabel.TextXAlignment = Enum.TextXAlignment.Left
+ClimbLabel.Parent = ClimbRow
+
+ClimbToggle = Instance.new("TextButton")
+ClimbToggle.Size = UDim2.new(0, 50, 0, 25)
+ClimbToggle.Position = UDim2.new(0, 160, 0, 2.5)
+ClimbToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+ClimbToggle.BorderSizePixel = 0
+ClimbToggle.Text = "OFF"
+ClimbToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClimbToggle.TextSize = 12
+ClimbToggle.Font = Enum.Font.GothamBold
+ClimbToggle.Parent = ClimbRow
+
+local ClimbToggleCorner = Instance.new("UICorner")
+ClimbToggleCorner.CornerRadius = UDim.new(0, 6)
+ClimbToggleCorner.Parent = ClimbToggle
+
+-- ================= 2x Speed GP Toggle =================
+local SpeedRow = Instance.new("Frame")
+SpeedRow.Size = UDim2.new(0, 220, 0, 30)
+SpeedRow.Position = UDim2.new(0, 15, 0, 130)
+SpeedRow.BackgroundTransparency = 1
+SpeedRow.Parent = AutoFrame
+
+local SpeedLabel = Instance.new("TextLabel")
+SpeedLabel.Size = UDim2.new(0, 150, 1, 0)
+SpeedLabel.BackgroundTransparency = 1
+SpeedLabel.Text = "2x speed GP"
+SpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpeedLabel.TextSize = 13
+SpeedLabel.Font = Enum.Font.GothamBold
+SpeedLabel.TextXAlignment = Enum.TextXAlignment.Left
+SpeedLabel.Parent = SpeedRow
+
+SpeedToggle = Instance.new("TextButton")
+SpeedToggle.Size = UDim2.new(0, 50, 0, 25)
+SpeedToggle.Position = UDim2.new(0, 160, 0, 2.5)
+SpeedToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+SpeedToggle.BorderSizePixel = 0
+SpeedToggle.Text = "OFF"
+SpeedToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpeedToggle.TextSize = 12
+SpeedToggle.Font = Enum.Font.GothamBold
+SpeedToggle.Parent = SpeedRow
+
+local SpeedToggleCorner = Instance.new("UICorner")
+SpeedToggleCorner.CornerRadius = UDim.new(0, 6)
+SpeedToggleCorner.Parent = SpeedToggle
+
+-- ================= VIP Toggle =================
+local VIPRow = Instance.new("Frame")
+VIPRow.Size = UDim2.new(0, 220, 0, 30)
+VIPRow.Position = UDim2.new(0, 15, 0, 165)
+VIPRow.BackgroundTransparency = 1
+VIPRow.Parent = AutoFrame
+
+local VIPLabel = Instance.new("TextLabel")
+VIPLabel.Size = UDim2.new(0, 150, 1, 0)
+VIPLabel.BackgroundTransparency = 1
+VIPLabel.Text = "VIP"
+VIPLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+VIPLabel.TextSize = 13
+VIPLabel.Font = Enum.Font.GothamBold
+VIPLabel.TextXAlignment = Enum.TextXAlignment.Left
+VIPLabel.Parent = VIPRow
+
+VIPToggle = Instance.new("TextButton")
+VIPToggle.Size = UDim2.new(0, 50, 0, 25)
+VIPToggle.Position = UDim2.new(0, 160, 0, 2.5)
+VIPToggle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+VIPToggle.BorderSizePixel = 0
+VIPToggle.Text = "OFF"
+VIPToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+VIPToggle.TextSize = 12
+VIPToggle.Font = Enum.Font.GothamBold
+VIPToggle.Parent = VIPRow
+
+local VIPToggleCorner = Instance.new("UICorner")
+VIPToggleCorner.CornerRadius = UDim.new(0, 6)
+VIPToggleCorner.Parent = VIPToggle
+
 -- ================= CONTROL BUTTONS =================
 MinimizeButton = Instance.new("TextButton")
 MinimizeButton.Size = UDim2.new(0, 25, 0, 25)
@@ -764,7 +860,7 @@ CloseButton.ZIndex = 5
 CloseButton.Parent = MainFrame
 
 MiniIcon = Instance.new("ImageButton")
-MiniIcon.Size = UDim2.new(0, 45, 0, 45)
+MiniIcon.Size = UDim2.new(0, 68, 0, 68)
 MiniIcon.Position = UDim2.new(0, 10, 0, 10)
 MiniIcon.BackgroundTransparency = 1
 MiniIcon.Image = "rbxassetid://90238157870123"
