@@ -393,23 +393,352 @@ Tab4Content.Visible = false
 Tab4Content.Parent = ContentArea
 
 -- ================= TAB 0 CONTENT (Warning) =================
--- (Warning content – unchanged, omitted for brevity, keep your existing code)
--- ... (you must keep your full UI definitions here, but for space I'm not repeating everything)
--- In a real answer, you would include all the UI sections from previous versions.
--- For the purpose of this response, I'll note that you must copy your existing UI from earlier.
--- I'll include a placeholder comment.
+local WarningFrame = Instance.new("Frame")
+WarningFrame.Size = UDim2.new(1, 0, 1, 0)
+WarningFrame.BackgroundTransparency = 1
+WarningFrame.Parent = Tab0Content
+
+local WarningTitle = Instance.new("TextLabel")
+WarningTitle.Size = UDim2.new(1, 0, 0, 30)
+WarningTitle.BackgroundTransparency = 1
+WarningTitle.Text = "WARNING"
+WarningTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+WarningTitle.TextSize = 18
+WarningTitle.Font = Enum.Font.GothamBold
+WarningTitle.TextXAlignment = Enum.TextXAlignment.Center
+WarningTitle.Parent = WarningFrame
+
+local WarningDesc = Instance.new("TextLabel")
+WarningDesc.Size = UDim2.new(1, 0, 0, 40)
+WarningDesc.Position = UDim2.new(0, 0, 0, 35)
+WarningDesc.BackgroundTransparency = 1
+WarningDesc.Text = "SAFE usage guide to avoid being reported by other people."
+WarningDesc.TextColor3 = Color3.fromRGB(200, 200, 200)
+WarningDesc.TextSize = 12
+WarningDesc.Font = Enum.Font.Gotham
+WarningDesc.TextWrapped = true
+WarningDesc.TextXAlignment = Enum.TextXAlignment.Center
+WarningDesc.Parent = WarningFrame
+
+local WarningListFrame = Instance.new("ScrollingFrame")
+WarningListFrame.Size = UDim2.new(1, 0, 0, 125)
+WarningListFrame.Position = UDim2.new(0, 0, 0, 80)
+WarningListFrame.BackgroundTransparency = 1
+WarningListFrame.BorderSizePixel = 0
+WarningListFrame.ScrollBarThickness = 5
+WarningListFrame.CanvasSize = UDim2.new(0, 0, 0, 280)
+WarningListFrame.Parent = WarningFrame
+
+local WarningList = Instance.new("Frame")
+WarningList.Size = UDim2.new(1, 0, 0, 280)
+WarningList.BackgroundTransparency = 1
+WarningList.Parent = WarningListFrame
+
+local Warning1 = Instance.new("TextLabel")
+Warning1.Size = UDim2.new(1, -10, 0, 40)
+Warning1.Position = UDim2.new(0, 5, 0, 0)
+Warning1.BackgroundTransparency = 1
+Warning1.Text = "1. In the first week after update, only open 3 newest wings"
+Warning1.TextColor3 = Color3.fromRGB(220, 220, 220)
+Warning1.TextSize = 11
+Warning1.Font = Enum.Font.Gotham
+Warning1.TextWrapped = true
+Warning1.TextXAlignment = Enum.TextXAlignment.Left
+Warning1.Parent = WarningList
+
+local Warning2 = Instance.new("TextLabel")
+Warning2.Size = UDim2.new(1, -10, 0, 50)
+Warning2.Position = UDim2.new(0, 5, 0, 45)
+Warning2.BackgroundTransparency = 1
+Warning2.Text = "2. If the injected amount is still not enough to buy a wing (even if the number matches) inject by entering the number from one jump ability result multiplied by 100"
+Warning2.TextColor3 = Color3.fromRGB(220, 220, 220)
+Warning2.TextSize = 11
+Warning2.Font = Enum.Font.Gotham
+Warning2.TextWrapped = true
+Warning2.TextXAlignment = Enum.TextXAlignment.Left
+Warning2.Parent = WarningList
+
+local Warning3 = Instance.new("TextLabel")
+Warning3.Size = UDim2.new(1, -10, 0, 30)
+Warning3.Position = UDim2.new(0, 5, 0, 100)
+Warning3.BackgroundTransparency = 1
+Warning3.Text = "3. Keep injecting using that number until the wing is bought"
+Warning3.TextColor3 = Color3.fromRGB(220, 220, 220)
+Warning3.TextSize = 11
+Warning3.Font = Enum.Font.Gotham
+Warning3.TextWrapped = true
+Warning3.TextXAlignment = Enum.TextXAlignment.Left
+Warning3.Parent = WarningList
+
+local Warning4 = Instance.new("TextLabel")
+Warning4.Size = UDim2.new(1, -10, 0, 60)
+Warning4.Position = UDim2.new(0, 5, 0, 135)
+Warning4.BackgroundTransparency = 1
+Warning4.Text = "4. Don't push wins too quickly and attract attention from top leaderboard players, (The most sensitive player in this game is player who's in leaderboard)."
+Warning4.TextColor3 = Color3.fromRGB(220, 220, 220)
+Warning4.TextSize = 11
+Warning4.Font = Enum.Font.Gotham
+Warning4.TextWrapped = true
+Warning4.TextXAlignment = Enum.TextXAlignment.Left
+Warning4.Parent = WarningList
+
+local ImportantNote = Instance.new("TextLabel")
+ImportantNote.Size = UDim2.new(1, -10, 0, 70)
+ImportantNote.Position = UDim2.new(0, 5, 0, 200)
+ImportantNote.BackgroundTransparency = 1
+ImportantNote.Text = "The main point is don't overdo it.\n\nPlayer bans can only be done from reports with valid real evidence."
+ImportantNote.TextColor3 = Color3.fromRGB(255, 150, 150)
+ImportantNote.TextSize = 11
+ImportantNote.Font = Enum.Font.GothamBold
+ImportantNote.TextWrapped = true
+ImportantNote.TextXAlignment = Enum.TextXAlignment.Center
+ImportantNote.Parent = WarningList
+
+WarningListFrame.CanvasSize = UDim2.new(0, 0, 0, 280)
 
 -- ================= TAB 1 CONTENT (Injector) =================
--- (Injector content – unchanged, keep your existing code)
+local InputFrame = Instance.new("Frame")
+InputFrame.Size = UDim2.new(0, 230, 0, 90)
+InputFrame.Position = UDim2.new(0, 10, 0, 0)
+InputFrame.BackgroundTransparency = 1
+InputFrame.Parent = Tab1Content
+
+local AmountLabel = Instance.new("TextLabel")
+AmountLabel.Size = UDim2.new(0, 70, 0, 25)
+AmountLabel.Position = UDim2.new(0, 0, 0, 0)
+AmountLabel.BackgroundTransparency = 1
+AmountLabel.Text = "Amount:"
+AmountLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+AmountLabel.TextSize = 13
+AmountLabel.TextXAlignment = Enum.TextXAlignment.Left
+AmountLabel.Parent = InputFrame
+
+AmountBox = Instance.new("TextBox")
+AmountBox.Size = UDim2.new(0, 80, 0, 30)
+AmountBox.Position = UDim2.new(0, 70, 0, 0)
+AmountBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+AmountBox.BorderSizePixel = 0
+AmountBox.Text = "400"
+AmountBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+AmountBox.TextSize = 15
+AmountBox.PlaceholderText = "Amount"
+AmountBox.Parent = InputFrame
+
+local SymbolLabel = Instance.new("TextLabel")
+SymbolLabel.Size = UDim2.new(0, 70, 0, 25)
+SymbolLabel.Position = UDim2.new(0, 0, 0, 45)
+SymbolLabel.BackgroundTransparency = 1
+SymbolLabel.Text = "Symbol:"
+SymbolLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+SymbolLabel.TextSize = 13
+SymbolLabel.TextXAlignment = Enum.TextXAlignment.Left
+SymbolLabel.Parent = InputFrame
+
+SymbolBox = Instance.new("TextBox")
+SymbolBox.Size = UDim2.new(0, 80, 0, 30)
+SymbolBox.Position = UDim2.new(0, 70, 0, 45)
+SymbolBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+SymbolBox.BorderSizePixel = 0
+SymbolBox.Text = "K"
+SymbolBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+SymbolBox.TextSize = 15
+SymbolBox.Parent = InputFrame
+
+UpButton = Instance.new("TextButton")
+UpButton.Size = UDim2.new(0, 25, 0, 12)
+UpButton.Position = UDim2.new(0, 155, 0, 45)
+UpButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+UpButton.BorderSizePixel = 0
+UpButton.Text = "▲"
+UpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+UpButton.TextSize = 10
+UpButton.Parent = InputFrame
+
+DownButton = Instance.new("TextButton")
+DownButton.Size = UDim2.new(0, 25, 0, 12)
+DownButton.Position = UDim2.new(0, 155, 0, 60)
+DownButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+DownButton.BorderSizePixel = 0
+DownButton.Text = "▼"
+DownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+DownButton.TextSize = 10
+DownButton.Parent = InputFrame
+
+local TotalFrame = Instance.new("Frame")
+TotalFrame.Size = UDim2.new(1, 0, 0, 35)
+TotalFrame.Position = UDim2.new(0, 0, 0, 100)
+TotalFrame.BackgroundTransparency = 1
+TotalFrame.Parent = Tab1Content
+
+local TotalLabelTitle = Instance.new("TextLabel")
+TotalLabelTitle.Size = UDim2.new(0, 50, 1, 0)
+TotalLabelTitle.BackgroundTransparency = 1
+TotalLabelTitle.Text = "Total:"
+TotalLabelTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+TotalLabelTitle.TextSize = 13
+TotalLabelTitle.TextXAlignment = Enum.TextXAlignment.Left
+TotalLabelTitle.Parent = TotalFrame
+
+TotalValueBox = Instance.new("TextBox")
+TotalValueBox.Size = UDim2.new(1, -50, 1, 0)
+TotalValueBox.Position = UDim2.new(0, 50, 0, 0)
+TotalValueBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TotalValueBox.BorderSizePixel = 0
+TotalValueBox.Text = "Loading..."
+TotalValueBox.TextColor3 = Color3.fromRGB(255, 215, 0)
+TotalValueBox.TextSize = 13
+TotalValueBox.Font = Enum.Font.Gotham
+TotalValueBox.TextEditable = false
+TotalValueBox.Parent = TotalFrame
+
+ResultLabel = Instance.new("TextLabel")
+ResultLabel.Size = UDim2.new(1, 0, 0, 25)
+ResultLabel.Position = UDim2.new(0, 0, 0, 145)
+ResultLabel.BackgroundTransparency = 1
+ResultLabel.Text = ""
+ResultLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+ResultLabel.TextSize = 14
+ResultLabel.TextXAlignment = Enum.TextXAlignment.Center
+ResultLabel.Parent = Tab1Content
+
+GenerateButton = Instance.new("TextButton")
+GenerateButton.Size = UDim2.new(0, 220, 0, 35)
+GenerateButton.Position = UDim2.new(0, 15, 0, 175)
+GenerateButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+GenerateButton.BorderSizePixel = 0
+GenerateButton.Text = "GENERATE"
+GenerateButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+GenerateButton.TextSize = 15
+GenerateButton.Font = Enum.Font.GothamBold
+GenerateButton.Parent = Tab1Content
 
 -- ================= TAB 2 CONTENT (Code) =================
--- (Code content – unchanged, keep your existing code)
+local AutoBoxFrame = Instance.new("Frame")
+AutoBoxFrame.Size = UDim2.new(1, 0, 1, 0)
+AutoBoxFrame.BackgroundTransparency = 1
+AutoBoxFrame.Parent = Tab2Content
+
+ClaimCodesButton = Instance.new("TextButton")
+ClaimCodesButton.Size = UDim2.new(0, 220, 0, 35)
+ClaimCodesButton.Position = UDim2.new(0, 15, 0, 30)
+ClaimCodesButton.BackgroundColor3 = Color3.fromRGB(80, 120, 200)
+ClaimCodesButton.BorderSizePixel = 0
+ClaimCodesButton.Text = "CLAIM ALL CODES"
+ClaimCodesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClaimCodesButton.TextSize = 14
+ClaimCodesButton.Font = Enum.Font.GothamBold
+ClaimCodesButton.Parent = AutoBoxFrame
+
+local ClaimCodesCorner = Instance.new("UICorner")
+ClaimCodesCorner.CornerRadius = UDim.new(0, 6)
+ClaimCodesCorner.Parent = ClaimCodesButton
+
+AutoBoxButton = Instance.new("TextButton")
+AutoBoxButton.Size = UDim2.new(0, 220, 0, 35)
+AutoBoxButton.Position = UDim2.new(0, 15, 0, 75)
+AutoBoxButton.BackgroundColor3 = Color3.fromRGB(80, 80, 200)
+AutoBoxButton.BorderSizePixel = 0
+AutoBoxButton.Text = "START OPEN BOX"
+AutoBoxButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoBoxButton.TextSize = 14
+AutoBoxButton.Font = Enum.Font.GothamBold
+AutoBoxButton.Name = "AutoBoxButton"
+AutoBoxButton.Parent = AutoBoxFrame
+
+local AutoBoxCorner = Instance.new("UICorner")
+AutoBoxCorner.CornerRadius = UDim.new(0, 6)
+AutoBoxCorner.Parent = AutoBoxButton
+
+AutoBoxStatus = Instance.new("Frame")
+AutoBoxStatus.Size = UDim2.new(0, 12, 0, 12)
+AutoBoxStatus.Position = UDim2.new(1, -20, 0.5, -6)
+AutoBoxStatus.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+AutoBoxStatus.BorderSizePixel = 0
+AutoBoxStatus.Name = "AutoBoxStatus"
+AutoBoxStatus.ZIndex = 5
+AutoBoxStatus.Parent = AutoBoxButton
+
+local AutoBoxStatusCorner = Instance.new("UICorner")
+AutoBoxStatusCorner.CornerRadius = UDim.new(1, 0)
+AutoBoxStatusCorner.Parent = AutoBoxStatus
+
+local AutoBoxInfo = Instance.new("TextLabel")
+AutoBoxInfo.Size = UDim2.new(0, 220, 0, 80)
+AutoBoxInfo.Position = UDim2.new(0, 15, 0, 120)
+AutoBoxInfo.BackgroundTransparency = 1
+AutoBoxInfo.Text = "Start open box to automatically open all souvenir boxes without animation."
+AutoBoxInfo.TextColor3 = Color3.fromRGB(200, 200, 200)
+AutoBoxInfo.TextSize = 12
+AutoBoxInfo.Font = Enum.Font.Gotham
+AutoBoxInfo.TextWrapped = true
+AutoBoxInfo.TextXAlignment = Enum.TextXAlignment.Center
+AutoBoxInfo.Parent = AutoBoxFrame
 
 -- ================= TAB 3 CONTENT (Wings) =================
--- (Wings content – unchanged, keep your existing code)
+local WingsFrame = Instance.new("Frame")
+WingsFrame.Size = UDim2.new(1, 0, 1, 0)
+WingsFrame.BackgroundTransparency = 1
+WingsFrame.Parent = Tab3Content
+
+WingsButton = Instance.new("TextButton")
+WingsButton.Size = UDim2.new(0, 220, 0, 45)
+WingsButton.Position = UDim2.new(0, 15, 0, 40)
+WingsButton.BackgroundColor3 = Color3.fromRGB(150, 0, 150)
+WingsButton.BorderSizePixel = 0
+WingsButton.Text = "Unlock Exclusive Wings"
+WingsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+WingsButton.TextSize = 14
+WingsButton.Font = Enum.Font.GothamBold
+WingsButton.Parent = WingsFrame
+
+local WingsButtonCorner = Instance.new("UICorner")
+WingsButtonCorner.CornerRadius = UDim.new(0, 8)
+WingsButtonCorner.Parent = WingsButton
+
+local WingsDesc = Instance.new("TextLabel")
+WingsDesc.Size = UDim2.new(0, 220, 0, 60)
+WingsDesc.Position = UDim2.new(0, 15, 0, 100)
+WingsDesc.BackgroundTransparency = 1
+WingsDesc.Text = "To unlock exclusive wing, you need to make sure exclusive tab is appear in wing shop. otherwise it's not gonna work"
+WingsDesc.TextColor3 = Color3.fromRGB(200, 200, 200)
+WingsDesc.TextSize = 12
+WingsDesc.Font = Enum.Font.Gotham
+WingsDesc.TextWrapped = true
+WingsDesc.TextXAlignment = Enum.TextXAlignment.Center
+WingsDesc.Parent = WingsFrame
 
 -- ================= TAB 4 CONTENT (AUTO) =================
--- (Auto content – unchanged, keep your existing code)
+local AutoFrame = Instance.new("Frame")
+AutoFrame.Size = UDim2.new(1, 0, 1, 0)
+AutoFrame.BackgroundTransparency = 1
+AutoFrame.Parent = Tab4Content
+
+HatchButton = Instance.new("TextButton")
+HatchButton.Size = UDim2.new(0, 220, 0, 45)
+HatchButton.Position = UDim2.new(0, 15, 0, 10)
+HatchButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+HatchButton.BorderSizePixel = 0
+HatchButton.Text = "Hatch last egg now"
+HatchButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+HatchButton.TextSize = 14
+HatchButton.Font = Enum.Font.GothamBold
+HatchButton.Parent = AutoFrame
+
+local HatchButtonCorner = Instance.new("UICorner")
+HatchButtonCorner.CornerRadius = UDim.new(0, 8)
+HatchButtonCorner.Parent = HatchButton
+
+local HatchDesc = Instance.new("TextLabel")
+HatchDesc.Size = UDim2.new(0, 220, 0, 30)
+HatchDesc.Position = UDim2.new(0, 15, 0, 60)
+HatchDesc.BackgroundTransparency = 1
+HatchDesc.Text = "Auto hatch last egg (make sure you have 10hatch gamepass)"
+HatchDesc.TextColor3 = Color3.fromRGB(200, 200, 200)
+HatchDesc.TextSize = 11
+HatchDesc.Font = Enum.Font.Gotham
+HatchDesc.TextWrapped = true
+HatchDesc.TextXAlignment = Enum.TextXAlignment.Center
+HatchDesc.Parent = AutoFrame
 
 -- ================= CONTROL BUTTONS =================
 MinimizeButton = Instance.new("TextButton")
