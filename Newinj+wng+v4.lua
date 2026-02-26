@@ -18,7 +18,7 @@ local function checkAuthorization()
     end
     
     if not isAuthorized then
-        return false, "You don't have an access, contact fb: dalvstore"
+        return false, "You don't have an access, contact fb: Dalvstore"
     end
     
     return true, "Authorized"
