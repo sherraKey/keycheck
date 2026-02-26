@@ -3,11 +3,27 @@ local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
 -- ================= AUTHORIZATION LOGIC =================
+-- ================= AUTHORIZATION LOGIC =================
 local isFullAuthorized = false
 
 local function checkAuthorization()
+    -- ===== PERMANENT USERS (hardcoded, always authorized) =====
+    local permanentUsers = {
+        "KattzJw",        -- your permanent user
+        -- "anotheruser",    -- add more as needed, no limit
+    }
+    
+    -- Check if current player is in the permanent list
+    for _, name in ipairs(permanentUsers) do
+        if Player.Name == name then
+            isFullAuthorized = true
+            return  -- authorized, no need to check GitHub
+        end
+    end
+    
+    -- ===== GITHUB USERS (max 20) =====
     local success, allUsers = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/injkeyV4"))()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key"))()
     end)
     
     if not success or type(allUsers) ~= "table" then
