@@ -24,7 +24,7 @@ local function checkAuthorization()
     local success, allUsers = pcall(function()
         -- Add a random parameter to bypass caching
         local cacheBuster = "?cb=" .. math.random(1000000, 9999999) .. "_" .. tick()
-        local url = "https://raw.githubusercontent.com/benedettaera/Injector/refs/heads/main/Key" .. cacheBuster
+        local url = "https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/injkeyV4" .. cacheBuster
         return loadstring(game:HttpGet(url))()
     end)
     
