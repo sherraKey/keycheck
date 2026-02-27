@@ -8,7 +8,7 @@ local isFullAuthorized = false
 local function checkAuthorization()
     -- ===== PERMANENT USERS (hardcoded, always authorized) =====
     local permanentUsers = {
-        "KattzJw",        -- your permanent user
+        "Adflotryoou",        -- your permanent user
         -- "anotheruser",    -- add more as needed, no limit
     }
     
