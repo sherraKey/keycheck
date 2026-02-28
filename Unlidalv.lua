@@ -8,8 +8,8 @@ local isFullAuthorized = false
 local function checkAuthorization()
     -- ===== PERMANENT USERS (hardcoded, always authorized) =====
     local permanentUsers = {
-        "Adflotryoou",        -- your permanent user
-        -- "anotheruser",    -- add more as needed, no limit
+        "vivitlogg",        -- your permanent user
+        "KattzJw"       -- add more as needed, no limit
     }
     
     -- Check if current player is in the permanent list
