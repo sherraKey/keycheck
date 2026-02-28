@@ -1,5 +1,6 @@
 return {
     "reskrimsus",
     "jumpntower",
-    "HaveCica"
+    "HaveCica",
+    "PartnerCGomok"
 }
