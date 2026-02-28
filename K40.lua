@@ -2,5 +2,6 @@ return {
     "reskrimsus",
     "jumpntower",
     "HaveCica",
-    "PartnerCGomok"
+    "PartnerCGomok",
+    "guardianspace1"
 }
