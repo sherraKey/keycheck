@@ -22,7 +22,7 @@ local function checkAuthorization()
     
     -- ===== GITHUB USERS (max 20) =====
     local success, allUsers = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/sherraKey/keycheck/refs/heads/main/injkeyV4"))()
+        return loadstring(game:HttpGet("https://rawgithub"))()
     end)
     
     if not success or type(allUsers) ~= "table" then
