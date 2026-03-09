@@ -9,7 +9,8 @@ local function checkAuthorization()
     -- ===== PERMANENT USERS (hardcoded, always authorized) =====
     local permanentUsers = {
         "vivitlogg",        -- your permanent user
-        "lisaayu24"       -- add more as needed, no limit
+        "lisaayu24",
+        "xXxXxGOD_REBORNxXxXx"
     }
     
     -- Check if current player is in the permanent list
