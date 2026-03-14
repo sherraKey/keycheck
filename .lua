@@ -268,7 +268,7 @@ local codes = {
 	"HALLOWEEN", "LUXURY", "SPOOKY", "TAIWAN", "SHANGHAI",
 	"ATLANTIS", "BRAZIL", "ALIEN", "TORONTO", "GIANT",
 	"IRONMAN", "70MVISIT", "ADMIN", "SPACE", "ANGEL",
-	"DEMON", "EVEREST", "PIXEL", "TITAN", "INDIA", "HARVEST"
+	"DEMON", "EVEREST", "PIXEL", "TITAN", "INDIA", "HARVEST", "STPATRICKS"
 }
 
 local codeRemote = game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("Code")
